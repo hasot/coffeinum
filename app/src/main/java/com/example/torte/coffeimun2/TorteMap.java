@@ -1,5 +1,7 @@
 package com.example.torte.coffeimun2;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -7,10 +9,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
 
 /**
  * Created by torte on 11.11.2017.
@@ -22,9 +27,14 @@ public class TorteMap {
     private final float defaultMapZoom = 16f;
 
     private GoogleMap googleMap;
+    private ArrayList<Marker> markers = new ArrayList<>();
 
-    public TorteMap(GoogleMap map){
+    public TorteMap(GoogleMap map)
+    {
         this.googleMap = map;
+
+        animator.setDuration(2000);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
     }
 
     public void GoToRostov() {
@@ -44,6 +54,31 @@ public class TorteMap {
                 .position(position)
                 .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 
-        googleMap.addMarker(options);
+        Marker googleMarker = googleMap.addMarker(options);
+        markers.add(googleMarker);
+    }
+
+    private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1000);
+
+    public void StartAnimation(Marker googleMarker){
+        for (Marker marker : markers)
+        {
+            if (!marker.equals(googleMarker))
+                marker.setVisible(false);
+        }
+
+        animator.addUpdateListener(
+                valueAnimator -> googleMarker.setAlpha((float)animator.getAnimatedValue() / 1000f));
+
+        animator.start();
+    }
+
+    public void StopAnimation()
+    {
+        for (Marker marker : markers)
+            marker.setVisible(true);
+
+        animator.end();
+        animator.removeAllUpdateListeners();
     }
 }

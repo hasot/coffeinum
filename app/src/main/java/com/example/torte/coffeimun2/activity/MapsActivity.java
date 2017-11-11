@@ -70,8 +70,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
+    private Boolean flag = true;
+
     @Override
-    public boolean onMarkerClick(Marker marker) {
+    public boolean onMarkerClick(Marker marker)
+    {
         GoToCoffeHouseActivity();
         return true;
     }
