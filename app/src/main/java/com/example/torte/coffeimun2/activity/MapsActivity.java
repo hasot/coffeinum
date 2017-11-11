@@ -114,12 +114,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker)
     {
-        GoToCoffeHouseActivity();
+        GoToCoffeHouseActivity(marker);
         return true;
     }
 
-    private void GoToCoffeHouseActivity() {
-        Intent intent = new Intent(this, CoffeeHouseActivity.class);
-        startActivity(intent);
+    private void GoToCoffeHouseActivity(Marker marker) {
+        String cafeId = map.FindCafeId(marker);
+        if (cafeId != null)
+        {
+            Intent intent = new Intent(this, CoffeeHouseActivity.class);
+            intent.putExtra(DataBaseModel.cafeIdFromMapsActivity, cafeId);
+            startActivity(intent);
+        }
+        else
+        {
+            ShowToastError("Cant send cafe ID, maaaaan");
+        }
     }
 }

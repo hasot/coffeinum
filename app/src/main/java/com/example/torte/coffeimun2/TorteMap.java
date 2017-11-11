@@ -87,6 +87,16 @@ public class TorteMap {
         return null;
     }
 
+    public String FindCafeId(Marker marker)
+    {
+        for (int i = 0; i < cafeIds.size(); ++i)
+        {
+            if (markers.get(i).equals(marker))
+                return cafeIds.get(i);
+        }
+        return null;
+    }
+
     public void StopAnimation()
     {
         for (Marker marker : markers)
