@@ -1,24 +1,24 @@
 package com.example.torte.coffeimun2.activity;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import com.example.torte.coffeimun2.R;
+import com.example.torte.coffeimun2.TorteMap;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    private GoogleMap mMap;
     private TorteMap map;
-    private final LatLng rostovLocation = new LatLng(47.2186297, 39.7103795);
-    private final float defaultMapZoom = 16f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        googleMap.setOnMarkerClickListener(this);
         map = new TorteMap(googleMap);
 
         map.GoToRostov();
@@ -47,5 +48,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new LatLng(47.218, 39.710),
                 new LatLng(47.219, 39.711),
         };
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        GoToCoffeHouseActivity();
+        return true;
+    }
+
+    private void GoToCoffeHouseActivity() {
+        Intent intent = new Intent(this, CoffeeHouseActivity.class);
+        startActivity(intent);
     }
 }
