@@ -8,10 +8,14 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private TorteMap map;
     private final LatLng rostovLocation = new LatLng(47.2186297, 39.7103795);
     private final float defaultMapZoom = 16f;
 
@@ -25,21 +29,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        map = new TorteMap(googleMap);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(rostovLocation));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(defaultMapZoom));
+        map.GoToRostov();
+
+        LatLng[] markerPositions = getMarkerPositions();
+        for (int i = 0; i < markerPositions.length; ++i){
+            map.AddMarker(markerPositions[i]);
+        }
+    }
+
+    private static LatLng[] getMarkerPositions() {
+        return new LatLng[]{
+                new LatLng(47.218, 39.710),
+                new LatLng(47.219, 39.711),
+        };
     }
 }
