@@ -1,29 +1,18 @@
 package com.example.torte.coffeimun2.activity;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.torte.coffeimun2.DataBaseModel;
 import com.example.torte.coffeimun2.R;
-import com.example.torte.coffeimun2.TorteMarker;
 import com.example.torte.coffeimun2.adapter.CoffeHouseAdapter;
 import com.example.torte.coffeimun2.interfaces.RecyclerViewClickListener;
 import com.example.torte.coffeimun2.model.CoffeHouseModel;
-import com.example.torte.coffeimun2.model.CreateList;
 import com.example.torte.coffeimun2.model.Menu;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import static com.example.torte.coffeimun2.ShowChangeLangDialog.showChangeLangDialog;
+import static com.example.torte.coffeimun2.AdditiveItemAdapter.WonderfulMagicMethod;
 
 public class CoffeeHouseActivity extends AppCompatActivity {
 
@@ -92,7 +81,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         RecyclerViewClickListener listener = (view, menu) -> {
-            showChangeLangDialog(menu, getApplicationContext(), this);
+            WonderfulMagicMethod(menu, getApplicationContext(), this);
         };
         CoffeHouseAdapter adapter = new CoffeHouseAdapter(getApplicationContext(), list, listener);
         recyclerView.setAdapter(adapter);
