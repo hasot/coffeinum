@@ -33,8 +33,11 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
 
     private ArrayList<View> createdViews = new ArrayList<>();
 
-    public AdditiveItemAdapter(Context context, ArrayList<AdditiveItem> items){
+    private final TextView totalPriceView;
+
+    public AdditiveItemAdapter(Context context, ArrayList<AdditiveItem> items, TextView totalPriceView){
         super(context, 0, items);
+        this.totalPriceView = totalPriceView;
     }
 
     @Override
@@ -56,11 +59,45 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
         countBar.setProgress(0);
         count.setText("0");
 
+        countBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                count.setText("" + i);
+                totalPriceView.setText("" + GetTotalCost());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         return convertView;
     }
 
+    private int GetTotalCost() {
+        int totalCost = 0; //TODO!
+        for (View view : createdViews)
+        {
+            int count = GetAdditiveViewCount(view);
+            totalCost += count * 10;
+        }
+        return totalCost;
+    }
 
-   static  public void WonderfulMagicMethod(Menu menu, Context context, Activity activity, String cafeId)
+    private static int GetAdditiveViewCount(View view)
+    {
+        SeekBar bar = view.findViewById(R.id.additive_item_seekbar);
+        int count = bar.getProgress();
+        return count;
+    }
+
+    static  public void WonderfulMagicMethod(Menu menu, Context context, Activity activity, String cafeId)
    {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -70,6 +107,7 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
         TextView dialogTextContent = (TextView)dialogView.findViewById(R.id.dialog_text);
         ImageView dialogImage = (ImageView)dialogView.findViewById(R.id.dialog_image);
         ListView listView = (ListView)dialogView.findViewById(R.id.dialog_listview);
+        TextView totalPriceView = dialogView.findViewById(R.id.dialog_total_price);
 
         //-----------------
        ArrayList<AdditiveItem> items = new ArrayList<>();
@@ -78,7 +116,7 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
            items.add(new AdditiveItem(add.name));
        }
 
-       AdditiveItemAdapter adapter = new AdditiveItemAdapter(context, items);
+       AdditiveItemAdapter adapter = new AdditiveItemAdapter(context, items, totalPriceView);
        listView.setAdapter(adapter);
        //---------------------
 
@@ -115,25 +153,20 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
         OrderParser parser = new OrderParser();
         parser.AddCoffeeName(coffeeName);
 
-        int totalCost = 0; //TODO ! base coffe price
         for (View view : createdViews)
         {
             TextView addView = view.findViewById(R.id.additive_item_name_textView);
-            TextView countView = view.findViewById(R.id.additive_item_count_textView);
 
             String add = addView.getText().toString();
-            String countText = countView.getText().toString();
-            int count = Integer.parseInt(countText);
+            int count = GetAdditiveViewCount(view);
             int cost = count * 10;
-
-            totalCost += cost;
 
             if (count > 0)
             {
                 parser.AddAdditive(add, count, cost);
             }
         }
-        parser.AddTotal(totalCost);
+        parser.AddTotal(GetTotalCost());
         String result = parser.Print();
         return result;
     }
