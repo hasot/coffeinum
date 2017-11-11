@@ -6,4 +6,5 @@ package com.example.torte.coffeimun2;
 
 public class DataBaseModel {
     public static String Markers = "markers";
+    public static String Orders = "order";
 }

@@ -28,6 +28,7 @@ public class TorteMap {
 
     private GoogleMap googleMap;
     private ArrayList<Marker> markers = new ArrayList<>();
+    private ArrayList<String> cafeIds = new ArrayList<>();
 
     public TorteMap(GoogleMap map)
     {
@@ -56,11 +57,15 @@ public class TorteMap {
 
         Marker googleMarker = googleMap.addMarker(options);
         markers.add(googleMarker);
+        cafeIds.add(marker.cafeId);
     }
 
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1000);
 
-    public void StartAnimation(Marker googleMarker){
+    public void StartAnimation(String cafeId){
+        Marker googleMarker = FindMarker(cafeId);
+        if (googleMarker == null) return;
+
         for (Marker marker : markers)
         {
             if (!marker.equals(googleMarker))
@@ -71,6 +76,15 @@ public class TorteMap {
                 valueAnimator -> googleMarker.setAlpha((float)animator.getAnimatedValue() / 1000f));
 
         animator.start();
+    }
+
+    private Marker FindMarker(String cafeId) {
+        for (int i = 0; i < markers.size(); ++i)
+        {
+            if (cafeIds.get(i).equals(cafeId))
+                return markers.get(i);
+        }
+        return null;
     }
 
     public void StopAnimation()
