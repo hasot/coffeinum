@@ -34,21 +34,16 @@ public class TorteMap {
 
     public void AddMarker(final TorteMarker marker)
     {
-        StorageReference storage = FirebaseStorage.getInstance().getReference();
-        StorageReference iconReference = storage.child(marker.iconName + ".png");
-        iconReference.getBytes(1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap icon = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        ImageLoader.AddListener(marker.iconName, bitmap -> TorteMap.this.AddMarker(bitmap, marker));
+    }
 
-                LatLng position = new LatLng(marker.lat, marker.lng);
+    private void AddMarker(Bitmap bitmap, TorteMarker marker) {
+        LatLng position = new LatLng(marker.lat, marker.lng);
 
-                MarkerOptions options = new MarkerOptions()
-                        .position(position)
-                        .icon(BitmapDescriptorFactory.fromBitmap(icon));
+        MarkerOptions options = new MarkerOptions()
+                .position(position)
+                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 
-                googleMap.addMarker(options);
-            }
-        });
+        googleMap.addMarker(options);
     }
 }
