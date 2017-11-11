@@ -9,7 +9,7 @@ public class Menu{
     public String img;
     public HashMap<String , Additives>  additives;
 
-    Menu(){}
+    public Menu(){}
 
     public String getImage_title() {
         return name;

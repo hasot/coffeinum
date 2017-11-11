@@ -1,37 +1,35 @@
 package com.example.torte.coffeimun2.activity;
 
-import android.app.Dialog;
 import android.content.Context;
+<<<<<<< HEAD
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+=======
+>>>>>>> 25ff79be9cb3fa6e9f6e96f91ce10b2b95b9d325
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.torte.coffeimun2.DataBaseModel;
 import com.example.torte.coffeimun2.ImageLoader;
 import com.example.torte.coffeimun2.R;
-import com.example.torte.coffeimun2.TorteMarker;
 import com.example.torte.coffeimun2.adapter.CoffeHouseAdapter;
 import com.example.torte.coffeimun2.interfaces.RecyclerViewClickListener;
 import com.example.torte.coffeimun2.model.CoffeHouseModel;
-import com.example.torte.coffeimun2.model.CreateList;
 import com.example.torte.coffeimun2.model.Menu;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -43,7 +41,6 @@ public class CoffeeHouseActivity extends AppCompatActivity {
     private ImageView headImage;
     private TextView nameText;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +49,13 @@ public class CoffeeHouseActivity extends AppCompatActivity {
         nameText = (TextView) findViewById(R.id.name_text);
         Intent intent = getIntent();
         String cafeId =  intent.getStringExtra(DataBaseModel.cafeIdFromMapsActivity);
-        LoadMarkers(cafeId);
+        LoadMarkers("54321");
 
     }
 
 
 
-    private void LoadMarkers(String id) {
+    private void LoadMarkers(String id){
         ArrayList<Menu> list = new ArrayList<>();
         ArrayList<String> additives = new ArrayList<>();;
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -73,7 +70,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
                         CoffeHouseModel coffeeHouse = null;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
-                            coffeeHouse = snapshot.getValue(CoffeHouseModel.class);
+                             coffeeHouse = snapshot.getValue(CoffeHouseModel.class);
                             ImageLoader.AddListener(coffeeHouse.head_img, bitmap -> headImage.setImageBitmap(bitmap));
                             nameText.setText(coffeeHouse.name);
                             for (String key: coffeeHouse.menu.keySet()) {
