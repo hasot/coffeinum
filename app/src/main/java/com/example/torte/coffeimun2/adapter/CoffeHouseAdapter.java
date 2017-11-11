@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.torte.coffeimun2.ImageLoader;
 import com.example.torte.coffeimun2.R;
+import com.example.torte.coffeimun2.TorteMap;
 import com.example.torte.coffeimun2.interfaces.RecyclerViewClickListener;
 import com.example.torte.coffeimun2.model.CreateList;
+import com.example.torte.coffeimun2.model.Menu;
 
 import java.util.ArrayList;
 
@@ -20,11 +23,11 @@ import java.util.ArrayList;
 
 public class CoffeHouseAdapter extends RecyclerView.Adapter<CoffeHouseAdapter.ViewHolder> {
 
-        private ArrayList<CreateList> galleryList;
+        private ArrayList<Menu> galleryList;
         private Context context;
         private RecyclerViewClickListener mListener;
 
-        public CoffeHouseAdapter(Context context, ArrayList<CreateList> galleryList, RecyclerViewClickListener listener) {
+        public CoffeHouseAdapter(Context context, ArrayList<Menu> galleryList, RecyclerViewClickListener listener) {
             this.galleryList = galleryList;
             this.context = context;
             this.mListener = listener;
@@ -38,9 +41,10 @@ public class CoffeHouseAdapter extends RecyclerView.Adapter<CoffeHouseAdapter.Vi
 
         @Override
         public void onBindViewHolder(CoffeHouseAdapter.ViewHolder viewHolder, int i) {
-            viewHolder.title.setText(galleryList.get(i).getImage_title());
+            viewHolder.title.setText(galleryList.get(i).name);
             viewHolder.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            viewHolder.img.setImageResource((galleryList.get(i).getImage_ID()));
+            ImageLoader.AddListener(galleryList.get(i).img, bitmap -> viewHolder.img.setImageBitmap(bitmap));
+
         }
 
         @Override
