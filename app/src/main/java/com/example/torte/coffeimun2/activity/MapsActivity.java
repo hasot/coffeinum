@@ -1,8 +1,9 @@
-package com.example.torte.coffeimun2;
+package com.example.torte.coffeimun2.activity;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.example.torte.coffeimun2.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
