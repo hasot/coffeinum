@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.torte.coffeimun2.activity.activity.CoffeeHouseActivity">
+    tools:context=".activity.CoffeeHouseActivity">
 
     <ImageView
         android:layout_width="match_parent"

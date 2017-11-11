@@ -1,4 +1,4 @@
-package com.example.torte.coffeimun2.activity.activity;
+package com.example.torte.coffeimun2.activity;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
@@ -8,20 +8,15 @@ import com.example.torte.coffeimun2.DataBaseModel;
 import com.example.torte.coffeimun2.R;
 import com.example.torte.coffeimun2.TorteMap;
 import com.example.torte.coffeimun2.TorteMarker;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 

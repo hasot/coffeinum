@@ -1,6 +1,4 @@
-package com.example.torte.coffeimun2.activity.model;
-
-import java.util.ArrayList;
+package com.example.torte.coffeimun2.model;
 
 /**
  * Created by dmitry on 11/11/17.

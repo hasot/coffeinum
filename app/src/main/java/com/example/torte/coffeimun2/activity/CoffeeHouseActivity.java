@@ -1,4 +1,4 @@
-package com.example.torte.coffeimun2.activity.activity;
+package com.example.torte.coffeimun2.activity;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.example.torte.coffeimun2.R;
-import com.example.torte.coffeimun2.activity.adapter.CoffeHouseAdapter;
-import com.example.torte.coffeimun2.activity.interfaces.RecyclerViewClickListener;
-import com.example.torte.coffeimun2.activity.model.CreateList;
+import com.example.torte.coffeimun2.adapter.CoffeHouseAdapter;
+import com.example.torte.coffeimun2.interfaces.RecyclerViewClickListener;
+import com.example.torte.coffeimun2.model.CreateList;
 
 import java.util.ArrayList;
 

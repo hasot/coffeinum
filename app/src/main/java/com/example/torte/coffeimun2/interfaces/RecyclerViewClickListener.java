@@ -1,4 +1,4 @@
-package com.example.torte.coffeimun2.activity.interfaces;
+package com.example.torte.coffeimun2.interfaces;
 
 import android.view.View;
 

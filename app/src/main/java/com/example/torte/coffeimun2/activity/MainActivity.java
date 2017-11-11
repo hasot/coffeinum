@@ -1,4 +1,4 @@
-package com.example.torte.coffeimun2.activity.activity;
+package com.example.torte.coffeimun2.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

@@ -1,4 +1,4 @@
-package com.example.torte.coffeimun2.activity.adapter;
+package com.example.torte.coffeimun2.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.torte.coffeimun2.R;
-import com.example.torte.coffeimun2.activity.interfaces.RecyclerViewClickListener;
-import com.example.torte.coffeimun2.activity.model.CreateList;
+import com.example.torte.coffeimun2.interfaces.RecyclerViewClickListener;
+import com.example.torte.coffeimun2.model.CreateList;
 
 import java.util.ArrayList;
 
