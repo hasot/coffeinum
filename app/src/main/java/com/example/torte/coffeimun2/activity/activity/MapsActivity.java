@@ -1,4 +1,4 @@
-package com.example.torte.coffeimun2.activity;
+package com.example.torte.coffeimun2.activity.activity;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
