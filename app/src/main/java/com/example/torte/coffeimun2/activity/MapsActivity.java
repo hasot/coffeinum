@@ -3,6 +3,7 @@ package com.example.torte.coffeimun2.activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.torte.coffeimun2.DataBaseModel;
 import com.example.torte.coffeimun2.R;
@@ -60,9 +61,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        ShowToastError("Error, when load markers");
                     }
                 });
+    }
+
+    private void ShowToastError(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -11,11 +11,13 @@ public class TorteMarker {
 
     public double lat;
     public double lng;
+    public String iconName;
 
     public TorteMarker() {}
 
-    public TorteMarker(double lat, double lng){
+    public TorteMarker(double lat, double lng, String iconName){
         this.lat = lat;
         this.lng = lng;
+        this.iconName = iconName;
     }
 }
