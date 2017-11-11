@@ -65,7 +65,7 @@ public class CoffeHouseAdapter extends RecyclerView.Adapter<CoffeHouseAdapter.Vi
 
             @Override
             public void onClick(View view) {
-                mListener.onClick(view, getAdapterPosition());
+                mListener.onClick(view, galleryList.get(getAdapterPosition()));
             }
         }
 }

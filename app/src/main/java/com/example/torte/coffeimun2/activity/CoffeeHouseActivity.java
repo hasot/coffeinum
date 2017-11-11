@@ -33,79 +33,27 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.example.torte.coffeimun2.ShowChangeLangDialog.showChangeLangDialog;
+
 public class CoffeeHouseActivity extends AppCompatActivity {
 
     private Context context;
-    private final String image_titles[] = {
-            "Капучино",
-            "Латте",
-            "Печенька",
-            "Твоя душа",
-    };
 
-    private final Integer image_ids[] = {
-            R.drawable.coffee,
-            R.drawable.coffee,
-            R.drawable.coffee,
-            R.drawable.coffee,
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_house);
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
-        recyclerView.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),2);
-        recyclerView.setLayoutManager(layoutManager);
-        ArrayList<Menu> createLists = LoadMarkers("54321");;
-        RecyclerViewClickListener listener = (view, position) -> {
-            showChangeLangDialog(position);
-        };
-        CoffeHouseAdapter adapter = new CoffeHouseAdapter(getApplicationContext(), createLists, listener);
-        recyclerView.setAdapter(adapter);
+        LoadMarkers("54321");
 
     }
 
-    public void showChangeLangDialog(Integer id) {
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.custom_dialog, null);
-        dialogBuilder.setView(dialogView);
-        TextView dialogTextContent = (TextView)dialogView.findViewById(R.id.dialog_text);
-        ImageView dialogImage = (ImageView)dialogView.findViewById(R.id.dialog_image);
-        dialogBuilder.setTitle("Custom Dialog Box");
-        dialogImage.setImageResource(this.image_ids[id]);
-        dialogBuilder.setPositiveButton("Заказать", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                Toast.makeText(getApplicationContext(), "OKKKK" , Toast.LENGTH_SHORT).show();
-            }
-        });
-        dialogBuilder.setNegativeButton("Отменить", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                Toast.makeText(getApplicationContext(), "Отменить" , Toast.LENGTH_SHORT).show();
-            }
-        });
-        AlertDialog b = dialogBuilder.create();
-        b.show();
-    }
 
-    private ArrayList<CreateList> prepareData(){
+    private void LoadMarkers(String id)
 
-        ArrayList<CreateList> theimage = new ArrayList<>();
-        for(int i = 0; i< image_titles.length; i++){
-            CreateList createList = new CreateList();
-            createList.setImage_title(image_titles[i]);
-            createList.setImage_ID(image_ids[i]);
-            theimage.add(createList);
-        }
-        return theimage;
-    }
-    private ArrayList<Menu> LoadMarkers(String id)
-    {
-        ArrayList<Menu> list = new ArrayList<>();
+    {    ArrayList<Menu> list = new ArrayList<>();
+        ArrayList<String> additives = new ArrayList<>();;
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase
                 .child(DataBaseModel.COFFEE_HOUSE)
@@ -118,14 +66,13 @@ public class CoffeeHouseActivity extends AppCompatActivity {
                         CoffeHouseModel coffeeHouse = null;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
-
                              coffeeHouse = snapshot.getValue(CoffeHouseModel.class);
                             for (String key: coffeeHouse.menu.keySet()) {
                                 Log.d("key : " , key);
                                 Log.d("value : " , coffeeHouse.menu.get(key).name);
                                 list.add(coffeeHouse.menu.get(key));
                             }
-
+                            recyclesView(list);
                         }
 
                     }
@@ -136,6 +83,18 @@ public class CoffeeHouseActivity extends AppCompatActivity {
 
                     }
                 });
-        return list;
+    }
+    private void recyclesView(ArrayList<Menu> list) {
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
+        recyclerView.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),2);
+        recyclerView.setLayoutManager(layoutManager);
+
+        RecyclerViewClickListener listener = (view, menu) -> {
+            showChangeLangDialog(menu, getApplicationContext(), this);
+        };
+        CoffeHouseAdapter adapter = new CoffeHouseAdapter(getApplicationContext(), list, listener);
+        recyclerView.setAdapter(adapter);
     }
 }

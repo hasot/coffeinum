@@ -22,7 +22,7 @@ public class ImageLoader {
 
     public static void AddListener(String imageName, final OnSuccessListener<Bitmap> listener)
     {
-        StorageReference imageRef = storage.child(imageName + ".png");
+        StorageReference imageRef = storage.child(imageName);
         imageRef.getBytes(BufferSize)
                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                     @Override
