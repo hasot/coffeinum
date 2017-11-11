@@ -81,7 +81,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
                                 Log.d("value : " , coffeeHouse.menu.get(key).name);
                                 list.add(coffeeHouse.menu.get(key));
                             }
-                            recyclesView(list);
+                            recyclesView(list, id);
                         }
 
                     }
@@ -93,7 +93,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void recyclesView(ArrayList<Menu> list) {
+    private void recyclesView(ArrayList<Menu> list, String id) {
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(true);
 
@@ -101,7 +101,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         RecyclerViewClickListener listener = (view, menu) -> {
-            WonderfulMagicMethod(menu, getApplicationContext(), this);
+            WonderfulMagicMethod(menu, getApplicationContext(), this, id);
         };
         CoffeHouseAdapter adapter = new CoffeHouseAdapter(getApplicationContext(), list, listener);
         recyclerView.setAdapter(adapter);

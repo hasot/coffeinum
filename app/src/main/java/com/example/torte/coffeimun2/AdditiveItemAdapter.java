@@ -60,7 +60,7 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
     }
 
 
-   static  public void WonderfulMagicMethod(Menu menu, Context context, Activity activity)
+   static  public void WonderfulMagicMethod(Menu menu, Context context, Activity activity, String cafeId)
    {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -90,7 +90,7 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
                 Order order = new Order();
                 order.id = IdGenerator.GetId();
                 order.id_product = menu.id;
-                order.id_house = "TODO";
+                order.id_house = cafeId;
                 order.additive = adapter.GetTextOrder(menu.name);
 
                 DatabaseReference database = FirebaseDatabase.getInstance().getReference();
