@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import com.example.torte.coffeimun2.model.Additives;
 import com.example.torte.coffeimun2.model.Menu;
+import com.example.torte.coffeimun2.model.Order;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -27,6 +30,9 @@ import java.util.ArrayList;
  */
 
 public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
+
+    private ArrayList<View> createdViews = new ArrayList<>();
+
     public AdditiveItemAdapter(Context context, ArrayList<AdditiveItem> items){
         super(context, 0, items);
     }
@@ -41,7 +47,6 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.additive_item, parent, false);
             createdViews.add(convertView);
         }
-
 
         TextView name = (TextView)convertView.findViewById(R.id.additive_item_name_textView);
         SeekBar countBar = (SeekBar)convertView.findViewById(R.id.additive_item_seekbar);
@@ -80,30 +85,56 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
         dialogBuilder.setTitle("Custom Dialog Box");
         //   dialogImage.setImageResource();
         dialogBuilder.setPositiveButton("Заказать", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                int sum = adapter.GetTotalSum();
-                Toast.makeText(context, "OKKKK " + sum , Toast.LENGTH_LONG).show();
+            public void onClick(DialogInterface dialog, int whichButton)
+            {
+                Order order = new Order();
+                order.id = IdGenerator.GetId();
+                order.id_product = menu.id;
+                order.id_house = "TODO";
+                order.additive = adapter.GetTextOrder(menu.name);
+
+                DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                database
+                        .child(DataBaseModel.Orders)
+                        .child(order.id)
+                        .setValue(order);
+
+                Toast.makeText(context, "Order sended", Toast.LENGTH_LONG).show();
             }
         });
         dialogBuilder.setNegativeButton("Отменить", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Toast.makeText(context, "Ты ушел(" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Order canceled" , Toast.LENGTH_SHORT).show();
             }
         });
         AlertDialog b = dialogBuilder.create();
         b.show();
     }
 
-    private ArrayList<View> createdViews = new ArrayList<>();
+    private String GetTextOrder(String coffeeName) {
+        OrderParser parser = new OrderParser();
+        parser.AddCoffeeName(coffeeName);
 
-    private int GetTotalSum() {
-        int sum = 0;
+        int totalCost = 0; //TODO ! base coffe price
         for (View view : createdViews)
         {
-            SeekBar bar = view.findViewById(R.id.additive_item_seekbar);
-            int count = bar.getProgress();
-            sum += count;
+            TextView addView = view.findViewById(R.id.additive_item_name_textView);
+            TextView countView = view.findViewById(R.id.additive_item_count_textView);
+
+            String add = addView.getText().toString();
+            String countText = countView.getText().toString();
+            int count = Integer.parseInt(countText);
+            int cost = count * 10;
+
+            totalCost += cost;
+
+            if (count > 0)
+            {
+                parser.AddAdditive(add, count, cost);
+            }
         }
-        return sum;
+        parser.AddTotal(totalCost);
+        String result = parser.Print();
+        return result;
     }
 }
