@@ -2,6 +2,7 @@ package com.example.torte.coffeimun2;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -25,8 +26,14 @@ public class TorteMap {
         map.animateCamera(CameraUpdateFactory.zoomTo(defaultMapZoom));
     }
 
-    public void AddMarker(LatLng position) {
-        MarkerOptions options = new MarkerOptions().position(position);
+    public void AddMarker(TorteMarker marker)
+    {
+        LatLng position = new LatLng(marker.lat, marker.lng);
+
+        MarkerOptions options = new MarkerOptions()
+                .position(position)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.test_marker_icon));
+
         map.addMarker(options);
     }
 }
