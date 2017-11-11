@@ -3,6 +3,9 @@ package com.example.torte.coffeimun2.activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.Image;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.torte.coffeimun2.DataBaseModel;
+import com.example.torte.coffeimun2.ImageLoader;
 import com.example.torte.coffeimun2.R;
 import com.example.torte.coffeimun2.TorteMarker;
 import com.example.torte.coffeimun2.adapter.CoffeHouseAdapter;
@@ -31,6 +35,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import static com.example.torte.coffeimun2.ShowChangeLangDialog.showChangeLangDialog;
@@ -38,12 +44,17 @@ import static com.example.torte.coffeimun2.ShowChangeLangDialog.showChangeLangDi
 public class CoffeeHouseActivity extends AppCompatActivity {
 
     private Context context;
-
+    private ImageView headImage;
+    private TextView nameText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_house);
+        headImage = (ImageView)findViewById(R.id.head_image);
+        nameText = (TextView) findViewById(R.id.name_text);
+        Intent intent = getIntent();
+        String cafeId =  intent.getStringExtra(DataBaseModel.cafeIdFromMapsActivity);
         LoadMarkers("54321");
 
     }
@@ -67,6 +78,8 @@ public class CoffeeHouseActivity extends AppCompatActivity {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
                              coffeeHouse = snapshot.getValue(CoffeHouseModel.class);
+                            ImageLoader.AddListener(coffeeHouse.head_img, bitmap -> headImage.setImageBitmap(bitmap));
+                            nameText.setText(coffeeHouse.name);
                             for (String key: coffeeHouse.menu.keySet()) {
                                 Log.d("key : " , key);
                                 Log.d("value : " , coffeeHouse.menu.get(key).name);
