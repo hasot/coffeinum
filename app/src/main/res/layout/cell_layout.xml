@@ -13,10 +13,13 @@
     <TextView
         android:id="@+id/title"
         android:layout_gravity="center"
-        android:textColor="#000"
+        android:textColor="@color/goodColorText"
+        android:textSize="16dp"
         android:textStyle="bold"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Test"
+        android:fontFamily="@font/peace_sans_webfont"/>
     <ImageView
         android:id="@+id/img"
         android:layout_gravity="center"
