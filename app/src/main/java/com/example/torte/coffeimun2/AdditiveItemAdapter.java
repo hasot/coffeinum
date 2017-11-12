@@ -124,8 +124,6 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
        AdditiveItemAdapter adapter = new AdditiveItemAdapter(context, items, totalPriceView, menu.price);
        listView.setAdapter(adapter);
        //---------------------
-
-        dialogBuilder.setTitle("Custom Dialog Box");
         //   dialogImage.setImageResource();
         dialogBuilder.setPositiveButton("Заказать", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton)
@@ -150,7 +148,8 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
                 Toast.makeText(context, "Order canceled" , Toast.LENGTH_SHORT).show();
             }
         });
-        AlertDialog b = dialogBuilder.create();
+       dialogBuilder.setInverseBackgroundForced(true);
+       AlertDialog b = dialogBuilder.create();
         b.show();
     }
 
