@@ -23,8 +23,8 @@ import java.util.ArrayList;
 
 public class TorteMap {
 
-    private final LatLng rostovLocation = new LatLng(47.2186297, 39.7103795);
-    private final float defaultMapZoom = 16f;
+    private final LatLng rostovLocation = new LatLng(47.216297, 39.7153795);
+    private final float defaultMapZoom = 14.8f;
 
     private GoogleMap googleMap;
     private ArrayList<Marker> markers = new ArrayList<>();
