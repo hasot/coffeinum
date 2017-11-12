@@ -34,10 +34,12 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
     private ArrayList<View> createdViews = new ArrayList<>();
 
     private final TextView totalPriceView;
+    private int basePrice;
 
-    public AdditiveItemAdapter(Context context, ArrayList<AdditiveItem> items, TextView totalPriceView){
+    public AdditiveItemAdapter(Context context, ArrayList<AdditiveItem> items, TextView totalPriceView, int basePrice){
         super(context, 0, items);
         this.totalPriceView = totalPriceView;
+        this.basePrice = basePrice;
     }
 
     @Override
@@ -81,7 +83,7 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
     }
 
     private int GetTotalCost() {
-        int totalCost = 0; //TODO!
+        int totalCost = basePrice;
         for (View view : createdViews)
         {
             int count = GetAdditiveViewCount(view);
@@ -105,9 +107,12 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
         dialogBuilder.setView(dialogView);
 
         TextView dialogTextContent = (TextView)dialogView.findViewById(R.id.dialog_text);
+        dialogTextContent.setText(menu.name);
         ImageView dialogImage = (ImageView)dialogView.findViewById(R.id.dialog_image);
+        ImageLoader.AddListener(menu.img, bitmap -> dialogImage.setImageBitmap(bitmap));
         ListView listView = (ListView)dialogView.findViewById(R.id.dialog_listview);
         TextView totalPriceView = dialogView.findViewById(R.id.dialog_total_price);
+        totalPriceView.setText("" + menu.price);
 
         //-----------------
        ArrayList<AdditiveItem> items = new ArrayList<>();
@@ -116,7 +121,7 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
            items.add(new AdditiveItem(add.name));
        }
 
-       AdditiveItemAdapter adapter = new AdditiveItemAdapter(context, items, totalPriceView);
+       AdditiveItemAdapter adapter = new AdditiveItemAdapter(context, items, totalPriceView, menu.price);
        listView.setAdapter(adapter);
        //---------------------
 
