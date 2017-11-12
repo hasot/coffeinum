@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.torte.coffeimun2.CheckAdapter;
 import com.example.torte.coffeimun2.DataBaseModel;
+import com.example.torte.coffeimun2.FontHelper;
 import com.example.torte.coffeimun2.ImageLoader;
 import com.example.torte.coffeimun2.OrderParser;
 import com.example.torte.coffeimun2.R;
@@ -46,6 +47,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_coffee_house);
         headImage = (ImageView)findViewById(R.id.head_image);
         nameText = (TextView) findViewById(R.id.name_text);
+        nameText.setTypeface(FontHelper.GetFont(getAssets()));
         Intent intent = getIntent();
         String cafeId =  intent.getStringExtra(DataBaseModel.cafeIdFromMapsActivity);
         currentCafeId = cafeId;
@@ -146,7 +148,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
         RecyclerViewClickListener listener = (view, menu) -> {
             WonderfulMagicMethod(menu, getApplicationContext(), this, id);
         };
-        CoffeHouseAdapter adapter = new CoffeHouseAdapter(getApplicationContext(), list, listener);
+        CoffeHouseAdapter adapter = new CoffeHouseAdapter(getApplicationContext(), list, listener, getAssets());
         recyclerView.setAdapter(adapter);
     }
 }

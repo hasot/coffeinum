@@ -86,7 +86,7 @@ public class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder>{
 //            view.setOnClickListener(this);
             this.view = view;
 
-            Typeface font = Typeface.createFromAsset(assets, "fonts/peace_sans_webfont.ttf");
+            Typeface font = FontHelper.GetFont(assets);
 
             text = view.findViewById(R.id.check_line_text);
             text.setTypeface(font);
