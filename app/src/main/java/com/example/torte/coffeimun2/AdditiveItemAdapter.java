@@ -156,14 +156,14 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
                         .child(order.id)
                         .setValue(order);
 
-                Toast.makeText(context, "Order sended", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Ваш заказ принят", Toast.LENGTH_LONG).show();
                 CoffeeHouseActivity ac = (CoffeeHouseActivity)activity;
                 ac.Reload();
             }
         });
         dialogBuilder.setNegativeButton("Отменить", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Toast.makeText(context, "Order canceled" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Заказ был отменен" , Toast.LENGTH_SHORT).show();
             }
         });
        dialogBuilder.setInverseBackgroundForced(true);

@@ -125,8 +125,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
     }
 
     private void LoadOrder(Order order) {
-        Toast.makeText(getApplicationContext(), "Смотри на чек", Toast.LENGTH_SHORT).show();
-
+        
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(true);
 
