@@ -39,7 +39,8 @@
         <activity
             android:name=".activity.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".activity.CoffeeHouseActivity"></activity>
+        <activity android:name=".activity.CoffeeHouseActivity" />
+        <activity android:name=".activity.SplashActivity"></activity>
     </application>
 
 </manifest>
