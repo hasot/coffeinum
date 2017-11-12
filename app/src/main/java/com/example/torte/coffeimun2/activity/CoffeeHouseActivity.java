@@ -78,7 +78,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
                             nameText.setText(coffeeHouse.name);
                             for (String key: coffeeHouse.menu.keySet()) {
                                 Log.d("key : " , key);
-                                Log.d("value : " , coffeeHouse.menu.get(key).name);
+                                Log.d("value : " ,"" + coffeeHouse.menu.get(key).price);
                                 list.add(coffeeHouse.menu.get(key));
                             }
                             recyclesView(list, id);

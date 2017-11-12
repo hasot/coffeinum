@@ -7,6 +7,7 @@ public class Menu{
     public String id;
     public String name;
     public String img;
+    public int price;
     public HashMap<String , Additives>  additives;
 
     public Menu(){}
