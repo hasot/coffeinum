@@ -5,12 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.torte.coffeimun2.adapter.CoffeHouseAdapter;
-import com.example.torte.coffeimun2.interfaces.RecyclerViewClickListener;
-import com.example.torte.coffeimun2.model.Menu;
 
 import java.util.ArrayList;
 
@@ -30,15 +25,13 @@ public class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder>{
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cell_layout, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.check_layout, viewGroup, false);
         return new ViewHolder(view);
     }
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-//        viewHolder.title.setText(galleryList.get(position).name);
-//        viewHolder.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//        ImageLoader.AddListener(galleryList.get(position).img, bitmap -> viewHolder.img.setImageBitmap(bitmap));
 
+        viewHolder.text.setText(tokens.get(position));
     }
 
     @Override
@@ -47,15 +40,12 @@ public class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder /*implements View.OnClickListener*/{
-        private TextView title;
-        private ImageView img;
+        private TextView text;
 
         public ViewHolder(View view) {
             super(view);
 //            view.setOnClickListener(this);
-            //TODO
-//            title = (TextView)view.findViewById(R.id.title);
-//            img = (ImageView) view.findViewById(R.id.img);
+            text = view.findViewById(R.id.check_line_text);
         }
 
 //        @Override

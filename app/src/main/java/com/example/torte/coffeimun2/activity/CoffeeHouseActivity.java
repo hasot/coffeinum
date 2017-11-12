@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.torte.coffeimun2.CheckAdapter;
 import com.example.torte.coffeimun2.DataBaseModel;
 import com.example.torte.coffeimun2.ImageLoader;
+import com.example.torte.coffeimun2.OrderParser;
 import com.example.torte.coffeimun2.R;
 import com.example.torte.coffeimun2.adapter.CoffeHouseAdapter;
 import com.example.torte.coffeimun2.interfaces.RecyclerViewClickListener;
@@ -122,7 +123,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
     }
 
     private void LoadOrder(Order order) {
-        Toast.makeText(getApplicationContext(), "Yeeeah!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Смотри на чек", Toast.LENGTH_SHORT).show();
 
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(true);
@@ -130,9 +131,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),1);
         recyclerView.setLayoutManager(layoutManager);
 
-        ArrayList<String> tokens = new ArrayList<>();
-        for (int i = 0; i < 5; ++i)
-            tokens.add(order.additive);
+        ArrayList<String> tokens = OrderParser.Parse(order.additive);
         CheckAdapter adapter = new CheckAdapter(getApplicationContext(), tokens);
         recyclerView.setAdapter(adapter);
     }
