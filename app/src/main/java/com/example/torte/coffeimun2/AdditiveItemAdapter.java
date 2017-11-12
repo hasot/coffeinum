@@ -3,6 +3,8 @@ package com.example.torte.coffeimun2;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -36,11 +38,13 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
 
     private final TextView totalPriceView;
     private int basePrice;
+    private AssetManager assets;
 
-    public AdditiveItemAdapter(Context context, ArrayList<AdditiveItem> items, TextView totalPriceView, int basePrice){
+    public AdditiveItemAdapter(Context context, ArrayList<AdditiveItem> items, TextView totalPriceView, int basePrice, AssetManager assets){
         super(context, 0, items);
         this.totalPriceView = totalPriceView;
         this.basePrice = basePrice;
+        this.assets = assets;
     }
 
     @Override
@@ -54,9 +58,13 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
             createdViews.add(convertView);
         }
 
+        Typeface font = FontHelper.GetFont(assets);
+
         TextView name = (TextView)convertView.findViewById(R.id.additive_item_name_textView);
+        name.setTypeface(font);
         SeekBar countBar = (SeekBar)convertView.findViewById(R.id.additive_item_seekbar);
         TextView count = (TextView)convertView.findViewById(R.id.additive_item_count_textView);
+        count.setTypeface(font);
 
         name.setText(item.name);
         countBar.setProgress(0);
@@ -66,7 +74,7 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 count.setText("" + i);
-                totalPriceView.setText("" + GetTotalCost());
+                totalPriceView.setText("" + GetTotalCost() + " ₽");
             }
 
             @Override
@@ -107,13 +115,20 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
         final View dialogView = inflater.inflate(R.layout.custom_dialog, null);
         dialogBuilder.setView(dialogView);
 
+       Typeface font = FontHelper.GetFont(activity.getAssets());
+
         TextView dialogTextContent = (TextView)dialogView.findViewById(R.id.dialog_text);
+        dialogTextContent.setTypeface(font);
         dialogTextContent.setText(menu.name);
         ImageView dialogImage = (ImageView)dialogView.findViewById(R.id.dialog_image);
         ImageLoader.AddListener(menu.img, bitmap -> dialogImage.setImageBitmap(bitmap));
         ListView listView = (ListView)dialogView.findViewById(R.id.dialog_listview);
         TextView totalPriceView = dialogView.findViewById(R.id.dialog_total_price);
-        totalPriceView.setText("" + menu.price);
+        totalPriceView.setTypeface(font);
+        totalPriceView.setText("" + menu.price + " ₽");
+
+        TextView priceLabel = dialogView.findViewById(R.id.price_label);
+        priceLabel.setTypeface(font);
 
         //-----------------
        ArrayList<AdditiveItem> items = new ArrayList<>();
@@ -122,7 +137,7 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
            items.add(new AdditiveItem(add.name));
        }
 
-       AdditiveItemAdapter adapter = new AdditiveItemAdapter(context, items, totalPriceView, menu.price);
+       AdditiveItemAdapter adapter = new AdditiveItemAdapter(context, items, totalPriceView, menu.price, activity.getAssets());
        listView.setAdapter(adapter);
        //---------------------
         //   dialogImage.setImageResource();
