@@ -132,7 +132,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         ArrayList<String> tokens = OrderParser.Parse(order.additive);
-        CheckAdapter adapter = new CheckAdapter(getApplicationContext(), tokens);
+        CheckAdapter adapter = new CheckAdapter(tokens);
         recyclerView.setAdapter(adapter);
     }
 

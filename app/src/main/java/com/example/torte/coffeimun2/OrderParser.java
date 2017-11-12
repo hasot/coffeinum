@@ -52,4 +52,8 @@ public class OrderParser {
         ArrayList<String> res = new ArrayList<>(Arrays.asList(tokens));
         return res;
     }
+
+    public static String[] ParseItem(String token) {
+        return token.split(delim);
+    }
 }

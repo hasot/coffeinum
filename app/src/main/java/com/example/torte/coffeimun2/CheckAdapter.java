@@ -16,11 +16,9 @@ import java.util.ArrayList;
 public class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder>{
 
     private ArrayList<String> tokens;
-    private Context context;
 
-    public CheckAdapter(Context context, ArrayList<String> tokens) {
+    public CheckAdapter(ArrayList<String> tokens) {
         this.tokens = tokens;
-        this.context = context;
     }
 
     @Override
@@ -29,9 +27,32 @@ public class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder>{
         return new ViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, int position)
+    {
+        String token = tokens.get(position);
+        String text = token;
+        String[] subTokens = OrderParser.ParseItem(token);
+        if (position == 0)
+        {
+            String coffeeName = subTokens[1];
 
-        viewHolder.text.setText(tokens.get(position));
+            text = "НАИМЕНОВАНИЕ: " + coffeeName;
+        }
+        else if (position == tokens.size() - 1)
+        {
+            String cost = subTokens[1];
+
+            text = "ИТОГО: " + cost + " ₽";
+        }
+        else
+        {
+            String addName = subTokens[0];
+            String count = subTokens[1];
+            String cost = subTokens[2];
+
+            text = "ДОБАВКА: " + addName + "    ----- x" + count + " " + cost + " ₽";
+        }
+        viewHolder.text.setText(text);
     }
 
     @Override
