@@ -1,18 +1,25 @@
 package com.example.torte.coffeimun2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by torte on 12.11.2017.
  */
 
 public class OrderParser {
 
-    private final static char lineDelim = '!';
-    private final static char delim = ';';
+    private final static String lineDelim = "!";
+    private final static String delim = ";";
     private final static String totalString = "TOTAL";
+    private final static String name = "NAME";
 
     private final StringBuilder builder = new StringBuilder();
 
     public void AddCoffeeName(String coffeName) {
+        builder.append(name);
+        builder.append(delim);
+
         builder.append(coffeName);
         builder.append(lineDelim);
     }
@@ -38,5 +45,15 @@ public class OrderParser {
 
     public String Print() {
         return builder.toString();
+    }
+
+    public static ArrayList<String> Parse(String additive) {
+        String[] tokens = additive.split(lineDelim);
+        ArrayList<String> res = new ArrayList<>(Arrays.asList(tokens));
+        return res;
+    }
+
+    public static String[] ParseItem(String token) {
+        return token.split(delim);
     }
 }

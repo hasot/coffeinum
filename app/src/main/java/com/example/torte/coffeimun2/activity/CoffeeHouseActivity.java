@@ -1,30 +1,26 @@
 package com.example.torte.coffeimun2.activity;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.torte.coffeimun2.CheckAdapter;
 import com.example.torte.coffeimun2.DataBaseModel;
 import com.example.torte.coffeimun2.ImageLoader;
+import com.example.torte.coffeimun2.OrderParser;
 import com.example.torte.coffeimun2.R;
 import com.example.torte.coffeimun2.adapter.CoffeHouseAdapter;
 import com.example.torte.coffeimun2.interfaces.RecyclerViewClickListener;
 import com.example.torte.coffeimun2.model.CoffeHouseModel;
 import com.example.torte.coffeimun2.model.Menu;
+import com.example.torte.coffeimun2.model.Order;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +37,8 @@ public class CoffeeHouseActivity extends AppCompatActivity {
     private ImageView headImage;
     private TextView nameText;
 
+    private String currentCafeId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +48,47 @@ public class CoffeeHouseActivity extends AppCompatActivity {
         nameText = (TextView) findViewById(R.id.name_text);
         Intent intent = getIntent();
         String cafeId =  intent.getStringExtra(DataBaseModel.cafeIdFromMapsActivity);
-        LoadMarkers(cafeId);
-
+        currentCafeId = cafeId;
+        LoadMenu(cafeId);
     }
 
 
 
-    private void LoadMarkers(String id) {
+    private void LoadMarkers(ArrayList<Menu> list, String cafeId) {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database
+                .child(DataBaseModel.Orders)
+                .orderByChild("id_house")
+                .equalTo(cafeId)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            Order order = snapshot.getValue(Order.class);
+                            LoadOrder(order);
+                            return;
+                        }
+                        initMenuRecyclerView(list, cafeId);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+//        LoadMenu(id);
+    }
+
+    public void Reload()
+    {
+        LoadMenu(currentCafeId);
+    }
+
+
+    private void LoadMenu(String id) {
         ArrayList<Menu> list = new ArrayList<>();
-        ArrayList<String> additives = new ArrayList<>();;
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase
                 .child(DataBaseModel.COFFEE_HOUSE)
@@ -79,7 +109,7 @@ public class CoffeeHouseActivity extends AppCompatActivity {
                                 Log.d("value : " ,"" + coffeeHouse.menu.get(key).price);
                                 list.add(coffeeHouse.menu.get(key));
                             }
-                            recyclesView(list, id);
+                            LoadMarkers(list, id);
                         }
 
                     }
@@ -91,7 +121,22 @@ public class CoffeeHouseActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void recyclesView(ArrayList<Menu> list, String id) {
+
+    private void LoadOrder(Order order) {
+        Toast.makeText(getApplicationContext(), "Смотри на чек", Toast.LENGTH_SHORT).show();
+
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
+        recyclerView.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),1);
+        recyclerView.setLayoutManager(layoutManager);
+
+        ArrayList<String> tokens = OrderParser.Parse(order.additive);
+        CheckAdapter adapter = new CheckAdapter(tokens);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void initMenuRecyclerView(ArrayList<Menu> list, String id) {
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(true);
 

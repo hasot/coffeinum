@@ -15,6 +15,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.torte.coffeimun2.activity.CoffeeHouseActivity;
 import com.example.torte.coffeimun2.model.Additives;
 import com.example.torte.coffeimun2.model.Menu;
 import com.example.torte.coffeimun2.model.Order;
@@ -141,6 +142,8 @@ public class AdditiveItemAdapter  extends ArrayAdapter<AdditiveItem> {
                         .setValue(order);
 
                 Toast.makeText(context, "Order sended", Toast.LENGTH_LONG).show();
+                CoffeeHouseActivity ac = (CoffeeHouseActivity)activity;
+                ac.Reload();
             }
         });
         dialogBuilder.setNegativeButton("Отменить", new DialogInterface.OnClickListener() {
